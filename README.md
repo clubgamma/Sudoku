@@ -9,10 +9,10 @@ This project implements a simple Sudoku solver using backtracking in C. The solv
 - [Usage](#usage)
 - [File Structure](#file-structure)
 - [How It Works](#how-it-works)
-- [Contribution Guidelines](#contribution-guidelines)
+- [Contribution Guidelines](#contribution-guidelines-)
 - [General Rules](#general-rules)
-- [Getting Started](#setting-started)
-- [Avoiding Conflicts](#avoiding-conflicts)
+- [Getting Started](#getting-started-)
+- [Avoiding Conflicts](#avoiding-conflicts-syncing-your-fork)
 
 ## Features
 
