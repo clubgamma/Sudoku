@@ -21,6 +21,9 @@ This project implements a simple Sudoku solver using backtracking in C. The solv
 - Shows the total number of steps taken to solve the puzzle.
 - Uses a simple text-based user interface.
 
+## Simple Sudoku
+![example](./EXAMPLE/SIMPLE_SUDOKU.png)
+
 ## Installation
 
 1. Clone the repository:
