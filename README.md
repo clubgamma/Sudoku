@@ -53,9 +53,9 @@ The program initializes a pre-defined Sudoku puzzle and attempts to solve it. Mo
   ```
 
 ## Description of Files
-- main.c: Contains the main function and initializes the Sudoku puzzle.
-- sudoku.h: Defines the Sudoku structure and declares functions used in the solver.
-- sudoku.c: Implements the logic for checking valid moves, solving the Sudoku, and printing the grid.
+- **main.c:** Contains the main function and initializes the Sudoku puzzle.
+- **sudoku.h:** Defines the Sudoku structure and declares functions used in the solver.
+- **sudoku.c:** Implements the logic for checking valid moves, solving the Sudoku, and printing the grid.
 
 ## How It Works
 - The program initializes a Sudoku board with predefined values.
