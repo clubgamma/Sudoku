@@ -87,13 +87,13 @@ Welcome to Club Gamma project! We appreciate your interest and contributions. Pl
    - Clone the forked repository to your local machine.
 
    ```bash
-   git clone https://github.com/clubgamma/Internet-Speed-Tester.git
+   git clone https://github.com/clubgamma/Sudoku.git
    ```
 
 3. **Navigate to the Project Directory:**
 
    ```bash
-   cd Internet-Speed-Tester
+   cd Sudoku
    ```
 
 4. **Create a New Branch:**
