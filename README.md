@@ -29,7 +29,7 @@ This project implements a simple Sudoku solver using backtracking in C. The solv
 1. Clone the repository:
    ```bash
    git clone https://github.com/clubgamma/Sudoku.git
-   cd sudoku-solver
+   cd Sudoku
 
 2. Compile the code using GCC:
    ```bash
