@@ -2,6 +2,9 @@
 
 This project implements a simple Sudoku solver using backtracking in C. The solver reads a Sudoku puzzle, solves it, and prints the solution along with the total steps taken to find the solution.
 
+## NOTE FOR CONTRIBUTORS
+If you are a beginner, don't worry. You have already been provided with a basic project structure. Your task now is to manage everything, and you are allowed to modify the structure as needed.
+
 ## Table of Contents
 
 - [Features](#features)
