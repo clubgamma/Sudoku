@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 void inputBoard(Sudoku *s) {
-    printf("Enter your Sudoku puzzle (use space for empty cells, no spaces between numbers):\n");
+    printf("Enter your Sudoku puzzle (use 0 or space for empty cells):\n");
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             char input = getchar();
