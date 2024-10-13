@@ -2,15 +2,20 @@
 #include <stdio.h>
 
 void inputBoard(Sudoku *s) {
-    printf("Enter your Sudoku puzzle (use 0 or space for empty cells):\n");
+    printf("Enter your Sudoku puzzle (use space for empty cells, no spaces between numbers):\n");
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            char input;
-            scanf(" %c", &input);
+            char input = getchar();
+
+            if (input == '\n') {
+                j--; 
+                continue;
+            }
+
             if (input == '0' || input == ' ') {
                 s->board[i][j] = ' '; 
             } else {
-                s->board[i][j] = input; 
+                s->board[i][j] = input;  
             }
         }
     }
@@ -21,9 +26,6 @@ int main() {
 
     inputBoard(&s);
 
-    printf("\n");
-    printf("Sudoku: \n");
-    
     if (solveSudoku(&s)) {
         printGrid(&s);
     } else {
