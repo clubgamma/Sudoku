@@ -7,7 +7,7 @@ typedef struct Sudoku{
 }Sudoku;
 
 int isValid(Sudoku *s,int row,int col,int num);
-int solveSudoku(Sudoku *s);
+int solveSudoku(Sudoku *s, int *steps);
 void printGrid(Sudoku *s);
 
 #endif

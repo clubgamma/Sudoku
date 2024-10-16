@@ -23,11 +23,13 @@ void inputBoard(Sudoku *s) {
 
 int main() {
     Sudoku s;
+    int steps = 0; 
 
     inputBoard(&s);
 
-    if (solveSudoku(&s)) {
+    if (solveSudoku(&s, &steps)) {
         printGrid(&s);
+        printf("Sudoku solved in %d steps.\n", steps);
     } else {
         printf("No solution exists.\n");
     }

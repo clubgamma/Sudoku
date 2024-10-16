@@ -39,7 +39,7 @@ int findEmpty(Sudoku *s, int *row, int *col) {
     return 0;  
 }
 
-int solveSudoku(Sudoku *s){
+int solveSudoku(Sudoku *s, int *steps) {
     int row, col;
 
     if (!findEmpty(s, &row, &col)) {
@@ -49,9 +49,10 @@ int solveSudoku(Sudoku *s){
     for (int num = 1; num <= 9; num++) {
         if (isValid(s, row, col, num)) {
             s->board[row][col] = num + '0';
+            (*steps)++;  
 
-            if (solveSudoku(s)) {
-                return 1;
+            if (solveSudoku(s, steps)) {
+                return 1; 
             }
 
             s->board[row][col] = ' ';
