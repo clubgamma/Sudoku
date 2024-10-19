@@ -70,8 +70,4 @@ The program initializes a pre-defined Sudoku puzzle and attempts to solve it. Mo
 
 
 
-4. **Keep Updated:**
-   - Regularly pull changes from the upstream repository to keep your fork updated.
-
-
   
