@@ -43,32 +43,50 @@ void inputBoard(Sudoku *s) {
     }
 }
 
-void inputBoardFromTxt(Sudoku *s, char *filename) {
+int inputBoardFromFile(Sudoku *s, char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("File not found.\n");
-        return;
+        printf("Error: Could not open the file. Ensure the file exists and is accessible.\n");
+        return 0;
     }
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             char input = fgetc(file);
 
+            if (input == EOF) {
+                printf("Error: Unexpected end of file. The file may be incomplete or corrupted.\n");
+                fclose(file);
+                return 0;
+            }
+
             if (input == '\n') {
-                j--;
+                j--; 
                 continue;
             }
 
             if (input == '0' || input == ' ') {
-                s->board[i][j] = ' ';
+                s->board[i][j] = ' ';  // Empty cell
+            } else if (input >= '1' && input <= '9') {
+                s->board[i][j] = input;  
             } else {
-                s->board[i][j] = input;
+                printf("Error: Invalid character '%c' found in file. Only digits 1-9 and spaces/0 are allowed.\n", input);
+                fclose(file);
+                return 0;
             }
         }
     }
 
     fclose(file);
+
+    if (!validateInitialBoard(s)) {
+        printf("Error: The puzzle from the file contains conflicts.\n");
+        return 0;
+    }
+
+    return 1;
 }
+
 
 int main(int argc, char *argv[]) {
     Sudoku s;
