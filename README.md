@@ -43,6 +43,10 @@ To run the Sudoku solver:
    ```bash
    ./sudoku_solver
   ```
+To run the Sudoku solver Using txt file:
+   ```bash
+   ./sudoku_solver ./EXAMPLE/puz.txt
+  ```
 
 
 The program initializes a pre-defined Sudoku puzzle and attempts to solve it. Modify the board array in main.c to test different puzzles.
