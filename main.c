@@ -50,6 +50,7 @@ int inputBoardFromFile(Sudoku *s, char *filename) {
         return 0;
     }
 
+
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             char input = fgetc(file);
@@ -93,7 +94,9 @@ int main(int argc, char *argv[]) {
     int steps = 0;
 
     if (argc == 2) {
-        inputBoardFromTxt(&s, argv[1]);
+        if(!inputBoardFromFile(&s, argv[1])){
+            return 0;
+        }
     } else {
         inputBoard(&s);
     }
