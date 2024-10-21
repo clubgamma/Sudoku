@@ -1,65 +1,49 @@
 #include <stdio.h>
 #include "sudoku.h"
 
+int rowMask[SIZE], colMask[SIZE], boxMask[SIZE];
+
 int isValid(Sudoku *s, int row, int col, int num) {
-    char ch = num + '0';
-
-    for (int x = 0; x < SIZE; x++) {
-        if (s->board[row][x] == ch) {
-            return 0;
-        }
-    }
-
-    for (int x = 0; x < SIZE; x++) {
-        if (s->board[x][col] == ch) {
-            return 0;
-        }
-    }
-
-    int startRow = row - row % 3, startCol = col - col % 3;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (s->board[i + startRow][j + startCol] == ch) {
-                return 0;
-            }
-        }
-    }
-
-    return 1;
+    return !(rowMask[row] & (1 << (num - 1)) || 
+             colMask[col] & (1 << (num - 1)) || 
+             boxMask[(row / 3) * 3 + (col / 3)] & (1 << (num - 1)));
 }
 
-int findEmpty(Sudoku *s, int *row, int *col) {
-    for (*row = 0; *row < SIZE; (*row)++) {
-        for (*col = 0; *col < SIZE; (*col)++) {
-            if (s->board[*row][*col] == ' ') {
-                return 1;
-            }
-        }
+void placeOrRemoveNumber(Sudoku *s, int row, int col, int num, int place) {
+    if (place) {
+        s->board[row][col] = num + '0';
+        rowMask[row] |= (1 << (num - 1));
+        colMask[col] |= (1 << (num - 1));
+        boxMask[(row / 3) * 3 + (col / 3)] |= (1 << (num - 1));
+    } else {
+        s->board[row][col] = ' ';
+        rowMask[row] &= ~(1 << (num - 1));
+        colMask[col] &= ~(1 << (num - 1));
+        boxMask[(row / 3) * 3 + (col / 3)] &= ~(1 << (num - 1));
     }
-    return 0;
 }
 
 int solveSudoku(Sudoku *s, int *steps) {
     int row, col;
-
-    if (!findEmpty(s, &row, &col)) {
-        return 1;
-    }
-
-    for (int num = 1; num <= 9; num++) {
-        if (isValid(s, row, col, num)) {
-            s->board[row][col] = num + '0';
-            (*steps)++;
-
-            if (solveSudoku(s, steps)) {
-                return 1;
+    // Find an empty cell
+    for (row = 0; row < SIZE; row++) {
+        for (col = 0; col < SIZE; col++) {
+            if (s->board[row][col] == ' ') {
+                for (int num = 1; num <= 9; num++) {
+                    if (isValid(s, row, col, num)) {
+                        placeOrRemoveNumber(s, row, col, num, 1); // Place the number
+                        (*steps)++;
+                        if (solveSudoku(s, steps)) {
+                            return 1; 
+                        }
+                        placeOrRemoveNumber(s, row, col, num, 0); // Remove the number
+                    }
+                }
+                return 0; // Backtrack
             }
-
-            s->board[row][col] = ' ';
         }
     }
-
-    return 0;
+    return 1;
 }
 
 void printGrid(Sudoku *s) {
@@ -76,7 +60,6 @@ void printGrid(Sudoku *s) {
         }
     }
 }
-
 int validateInitialBoard(Sudoku *s) {
     for (int row = 0; row < SIZE; row++) {
         for (int col = 0; col < SIZE; col++) {
