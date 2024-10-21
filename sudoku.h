@@ -12,5 +12,7 @@ int isValid(Sudoku *s, int row, int col, int num);
 int solveSudoku(Sudoku *s, int *steps);
 void printGrid(Sudoku *s);
 int validateInitialBoard(Sudoku *s);
+const char* classifyDifficulty(int clueCount, int backtrackingSteps);
+
 
 #endif

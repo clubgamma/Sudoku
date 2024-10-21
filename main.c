@@ -50,7 +50,6 @@ int inputBoardFromFile(Sudoku *s, char *filename) {
         return 0;
     }
 
-
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             char input = fgetc(file);
@@ -88,6 +87,17 @@ int inputBoardFromFile(Sudoku *s, char *filename) {
     return 1;
 }
 
+int countClues(Sudoku *s) {
+    int clueCount = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (s->board[i][j] != ' ') {
+                clueCount++;
+            }
+        }
+    }
+    return clueCount;
+}
 
 int main(int argc, char *argv[]) {
     Sudoku s;
@@ -101,9 +111,13 @@ int main(int argc, char *argv[]) {
         inputBoard(&s);
     }
 
+    int clueCount = countClues(&s);
+
     if (solveSudoku(&s, &steps)) {
         printGrid(&s);
         printf("Sudoku solved in %d steps.\n", steps);
+        const char *difficulty = classifyDifficulty(clueCount, steps);
+        printf("Puzzle difficulty: %s\n", difficulty);
     } else {
         printf("No solution exists.\n");
     }
