@@ -13,6 +13,8 @@ int solveSudoku(Sudoku *s, int *steps);
 void printGrid(Sudoku *s);
 void placeOrRemoveNumber(Sudoku *s, int row, int col, int num, int place);
 int validateInitialBoard(Sudoku *s);
+const char* classifyDifficulty(int clueCount, int backtrackingSteps);
+
 
 extern int rowMask[SIZE], colMask[SIZE], boxMask[SIZE];
 

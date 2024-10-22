@@ -76,3 +76,17 @@ int validateInitialBoard(Sudoku *s) {
     }
     return 1;
 }
+
+const char* classifyDifficulty(int clueCount, int backtrackingSteps) {
+    int score = 40 - clueCount + (backtrackingSteps / 10);
+
+    if (score < 10) {
+        return "Easy";
+    } else if (score >= 10 && score <= 19) {
+        return "Medium";
+    } else if (score >= 20 && score <= 29) {
+        return "Hard";
+    } else {
+        return "Expert";
+    }
+}
