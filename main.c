@@ -6,7 +6,7 @@
 void inputBoard(Sudoku *s) {
     printf("Enter your Sudoku puzzle (use 0 or space for empty cells, and press Enter when a row is done)\n");
     for (int i = 0; i < SIZE; i++) {
-        printf("Row %d :\n", i + 1);
+        printf("Row %d :", i + 1);
 
         char rowCheck[SIZE + 1] = {0};
         char line[SIZE + 2];
@@ -99,11 +99,17 @@ int countClues(Sudoku *s) {
     return clueCount;
 }
 
+
 int main(int argc, char *argv[]) {
     Sudoku s;
     int steps = 0;
 
+    memset(rowMask, 0, sizeof(rowMask));
+    memset(colMask, 0, sizeof(colMask));
+    memset(boxMask, 0, sizeof(boxMask));
+
     if (argc == 2) {
+        inputBoardFromFile(&s, argv[1]);
         if(!inputBoardFromFile(&s, argv[1])){
             return 0;
         }
