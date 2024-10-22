@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int rowMask[MAX_SIZE], colMask[MAX_SIZE], boxMask[MAX_SIZE];
 
 void inputBoard(Sudoku *s) {
     printf("Enter the size of your Sudoku puzzle (4, 9, 16, 25): ");
