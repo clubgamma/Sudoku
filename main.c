@@ -3,6 +3,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+void RemoveSpace(char* input) {
+    char temp[MAX_SIZE + 1];
+    int j = 0;
+
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (input[i] != ' ') { 
+            temp[j++] = input[i];
+        }
+    }
+
+    temp[j] = '\0'; 
+    strcpy(input, temp); 
+}
+
 
 void inputBoard(Sudoku *s) {
     printf("Enter the size of your Sudoku puzzle (4, 9, 16, 25): ");
@@ -15,48 +29,43 @@ void inputBoard(Sudoku *s) {
 
     while (getchar() != '\n');
 
-    printf("Enter your Sudoku puzzle (use 0 or space for empty cells, and press Enter when a row is done):\n");
+    printf("Enter your Sudoku puzzle (use 0 for empty cells):\n");
     for (int i = 0; i < s->size; i++) {
         int validRow = 0;
         while (!validRow) {
             printf("Row %d: ", i + 1);
-
-            char rowCheck[MAX_SIZE + 1] = {0};
             char line[MAX_SIZE + 1];
             fgets(line, sizeof(line), stdin);
-            line[strcspn(line, "\n")] = 0;
+            line[strcspn(line, "\n")] = 0; 
+
+            
+            RemoveSpace(line);
 
             if (strlen(line) != s->size) {
-                printf("Error: Each line must contain exactly %d digits or spaces.\n", s->size);
-                continue;
+                printf("Error: Each line must contain exactly %d digits.\n", s->size);
+                continue; 
             }
 
-            validRow = 1; // Assume the row is valid until proven otherwise
+            validRow = 1; 
             for (int j = 0; j < s->size; j++) {
                 char input = line[j];
 
-                if (input == '0' || input == ' ') {
-                    s->board[i][j] = ' ';
+                if (input == '0') {
+                    s->board[i][j] = ' '; 
                 } else if (input >= '1' && input <= '0' + s->size) {
-                    if (rowCheck[input - '0']) {
-                        printf("Error: Duplicate number '%c' found in row %d. Please correct it.\n", input, i + 1);
-                        validRow = 0; // Mark this row as invalid
-                        break; // Break out of the for loop to re-prompt
-                    }
-                    rowCheck[input - '0'] = 1;
-                    s->board[i][j] = input;
+                    s->board[i][j] = input; 
                 } else {
-                    printf("Error: Invalid input '%c'. Please enter numbers between 1 and %d, or 0/space for empty.\n", input, s->size);
-                    validRow = 0; // Mark this row as invalid
-                    break; // Break out of the for loop to re-prompt
+                    printf("Error: Invalid input '%c'. Please enter numbers between 1 and %d, or 0 for empty.\n", input, s->size);
+                    validRow = 0; 
+                    break; 
                 }
             }
         }
     }
 
     if (!validateInitialBoard(s)) {
-        printf("Error: Invalid Sudoku puzzle. Conflicts found. Please check your input.\n");
-        exit(1);
+        printf("Error: Invalid Sudoku puzzle detected. Please check your input.\n");
+        exit(1); 
     }
 }
 
