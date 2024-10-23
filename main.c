@@ -7,44 +7,49 @@
 void inputBoard(Sudoku *s) {
     printf("Enter the size of your Sudoku puzzle (4, 9, 16, 25): ");
     scanf("%d", &s->size);
-    
-    if (s->size != 4 && s->size != 9 && s->size != 16 && s->size != 25) {
-        printf("Error: Unsupported size. Please enter 4, 9, 16, or 25.\n");
-        exit(1);
+
+    while (s->size != 4 && s->size != 9 && s->size != 16 && s->size != 25) {
+        printf("Error: Unsupported size. Please enter 4, 9, 16, or 25: ");
+        scanf("%d", &s->size);
     }
 
-    // Clear the input buffer
     while (getchar() != '\n');
 
-    printf("Enter your Sudoku puzzle (use 0 or space for empty cells, and press Enter when a row is done)\n");
+    printf("Enter your Sudoku puzzle (use 0 or space for empty cells, and press Enter when a row is done):\n");
     for (int i = 0; i < s->size; i++) {
-        printf("Row %d :", i + 1);
+        int validRow = 0;
+        while (!validRow) {
+            printf("Row %d: ", i + 1);
 
-        char rowCheck[MAX_SIZE + 1] = {0};
-        char line[MAX_SIZE + 2];
-        fgets(line, sizeof(line), stdin);
-        line[strcspn(line, "\n")] = 0;
+            char rowCheck[MAX_SIZE + 1] = {0};
+            char line[MAX_SIZE + 1];
+            fgets(line, sizeof(line), stdin);
+            line[strcspn(line, "\n")] = 0;
 
-        if (strlen(line) != s->size) {
-            printf("Error: Each line must contain exactly %d digits or spaces.\n", s->size);
-            exit(1);
-        }
+            if (strlen(line) != s->size) {
+                printf("Error: Each line must contain exactly %d digits or spaces.\n", s->size);
+                continue;
+            }
 
-        for (int j = 0; j < s->size; j++) {
-            char input = line[j];
+            validRow = 1; // Assume the row is valid until proven otherwise
+            for (int j = 0; j < s->size; j++) {
+                char input = line[j];
 
-            if (input == '0' || input == ' ') {
-                s->board[i][j] = ' ';
-            } else if (input >= '1' && input <= '0' + s->size) {
-                if (rowCheck[input - '0']) {
-                    printf("Error: Duplicate number");
-                    exit(1);
+                if (input == '0' || input == ' ') {
+                    s->board[i][j] = ' ';
+                } else if (input >= '1' && input <= '0' + s->size) {
+                    if (rowCheck[input - '0']) {
+                        printf("Error: Duplicate number '%c' found in row %d. Please correct it.\n", input, i + 1);
+                        validRow = 0; // Mark this row as invalid
+                        break; // Break out of the for loop to re-prompt
+                    }
+                    rowCheck[input - '0'] = 1;
+                    s->board[i][j] = input;
+                } else {
+                    printf("Error: Invalid input '%c'. Please enter numbers between 1 and %d, or 0/space for empty.\n", input, s->size);
+                    validRow = 0; // Mark this row as invalid
+                    break; // Break out of the for loop to re-prompt
                 }
-                rowCheck[input - '0'] = 1;
-                s->board[i][j] = input;
-            } else {
-                printf("Error: Invalid input. Please enter numbers between 1 and %d or 0 or space for empty.\n", s->size);
-                exit(1);
             }
         }
     }
