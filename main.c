@@ -61,31 +61,49 @@ void inputBoard(Sudoku *s) {
 }
 
 int inputBoardFromFile(Sudoku *s, char *filename) {
-    FILE *file = fopen(filename, "r");
+     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error: Could not open the file. Ensure the file exists and is accessible.\n");
         return 0;
     }
 
+    // Determine grid size
+    char line[MAX_SIZE + 1];
+    int rowCount = 0;
+    int colCount = 0;
+
+    // First count the number of rows and find the longest line to determine column count
+    while (fgets(line, sizeof(line), file)) {
+        rowCount++;
+        int length = strcspn(line, "\n"); 
+        if (length > colCount) {
+            colCount = length;
+        }
+    }
+
+    fseek(file, 0, SEEK_SET);
+
+    if (rowCount != colCount || (rowCount != 4 && rowCount != 9 && rowCount != 16 && rowCount != 25)) {
+        printf("Error: Invalid grid size detected. Expected 4, 9, 16, or 25, but got %d.\n", rowCount);
+        fclose(file);
+        return 0;
+    }
+
+    // Set the size of Sudoku
+    s->size = rowCount;
+
+    // Read the rest of the file to initialize the board
     for (int i = 0; i < s->size; i++) {
+        fgets(line, sizeof(line), file);
+        line[strcspn(line, "\n")] = 0; 
+
         for (int j = 0; j < s->size; j++) {
-            char input = fgetc(file);
-
-            if (input == EOF) {
-                printf("Error: Unexpected end of file. The file may be incomplete or corrupted.\n");
-                fclose(file);
-                return 0;
-            }
-
-            if (input == '\n') {
-                j--; 
-                continue;
-            }
+            char input = line[j];
 
             if (input == '0' || input == ' ') {
-                s->board[i][j] = ' ';  // Empty cell
+                s->board[i][j] = ' ';  
             } else if (input >= '1' && input <= '0' + s->size) {
-                s->board[i][j] = input;  
+                s->board[i][j] = input;
             } else {
                 printf("Error: Invalid character '%c' found in file. Only digits 1-%d and spaces/0 are allowed.\n", input, s->size);
                 fclose(file);
