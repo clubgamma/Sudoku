@@ -78,14 +78,28 @@ int validateInitialBoard(Sudoku *s) {
     memset(colMask, 0, sizeof(colMask));
     memset(boxMask, 0, sizeof(boxMask));
 
-    for (int i = 0; i < s->size; i++) {
+     for (int i = 0; i < s->size; i++) {
         for (int j = 0; j < s->size; j++) {
             if (s->board[i][j] != ' ') {
                 int num = s->board[i][j] - '0';
-                if (!isValid(s, i, j, num)) {
-                    return 0; // Invalid number found
+                if (num < 1 || num > s->size) {
+                    printf("Error: Invalid number '%c' found at (%d, %d).\n", s->board[i][j], i + 1, j + 1);
+                    return 0; 
                 }
-                placeOrRemoveNumber(s, i, j, num, 1); // Place the number
+                // Check for duplicates
+                if (rowMask[i] & (1 << (num - 1))) {
+                    printf("Error: Duplicate number '%d' found in row %d.\n", num, i + 1);
+                    return 0;
+                }
+                if (colMask[j] & (1 << (num - 1))) {
+                    printf("Error: Duplicate number '%d' found in column %d.\n", num, j + 1);
+                    return 0;
+                }
+                if (boxMask[getBoxIndex(s->size, i, j)] & (1 << (num - 1))) {
+                    printf("Error: Duplicate number '%d' found in box %d.\n", num, getBoxIndex(s->size, i, j) + 1);
+                    return 0;
+                }
+                placeOrRemoveNumber(s, i, j, num, 1); 
             }
         }
     }
