@@ -1,9 +1,8 @@
-#include <stdio.h>
 #include "sudoku.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h> 
+#include <math.h>
 
 int rowMask[MAX_SIZE], colMask[MAX_SIZE], boxMask[MAX_SIZE];
 
@@ -34,21 +33,20 @@ void placeOrRemoveNumber(Sudoku *s, int row, int col, int num, int place) {
 
 int solveSudoku(Sudoku *s, int *steps) {
     int row, col;
-    // Find an empty cell
     for (row = 0; row < s->size; row++) {
         for (col = 0; col < s->size; col++) {
             if (s->board[row][col] == ' ') {
                 for (int num = 1; num <= s->size; num++) {
                     if (isValid(s, row, col, num)) {
-                        placeOrRemoveNumber(s, row, col, num, 1); // Place the number
+                        placeOrRemoveNumber(s, row, col, num, 1);
                         (*steps)++;
                         if (solveSudoku(s, steps)) {
-                            return 1; 
+                            return 1;
                         }
-                        placeOrRemoveNumber(s, row, col, num, 0); // Remove the number
+                        placeOrRemoveNumber(s, row, col, num, 0);
                     }
                 }
-                return 0; // Backtrack
+                return 0;
             }
         }
     }
@@ -56,16 +54,17 @@ int solveSudoku(Sudoku *s, int *steps) {
 }
 
 void printGrid(Sudoku *s) {
+    int boxSize = (int)sqrt(s->size);
     for (int row = 0; row < s->size; row++) {
         for (int col = 0; col < s->size; col++) {
             printf("%c ", s->board[row][col]);
-            if ((col + 1) % (int)sqrt(s->size) == 0 && col < s->size - 1) {
+            if ((col + 1) % boxSize == 0 && col < s->size - 1) {
                 printf("| ");
             }
         }
         printf("\n");
-        if ((row + 1) % (int)sqrt(s->size) == 0 && row < s->size - 1) {
-            for (int i = 0; i < s->size + (int)sqrt(s->size) - 1; i++) {
+        if ((row + 1) % boxSize == 0 && row < s->size - 1) {
+            for (int i = 0; i < s->size + boxSize - 1; i++) {
                 printf("-");
             }
             printf("\n");
@@ -78,36 +77,24 @@ int validateInitialBoard(Sudoku *s) {
     memset(colMask, 0, sizeof(colMask));
     memset(boxMask, 0, sizeof(boxMask));
 
-     for (int i = 0; i < s->size; i++) {
+    for (int i = 0; i < s->size; i++) {
         for (int j = 0; j < s->size; j++) {
             if (s->board[i][j] != ' ') {
                 int num = s->board[i][j] - '0';
                 if (num < 1 || num > s->size) {
-                    printf("Error: Invalid number '%c' found at (%d, %d).\n", s->board[i][j], i + 1, j + 1);
-                    return 0; 
-                }
-                // Check for duplicates
-                if (rowMask[i] & (1 << (num - 1))) {
-                    printf("Error: Duplicate number '%d' found in row %d.\n", num, i + 1);
                     return 0;
                 }
-                if (colMask[j] & (1 << (num - 1))) {
-                    printf("Error: Duplicate number '%d' found in column %d.\n", num, j + 1);
+                if (!isValid(s, i, j, num)) {
                     return 0;
                 }
-                if (boxMask[getBoxIndex(s->size, i, j)] & (1 << (num - 1))) {
-                    printf("Error: Duplicate number '%d' found in box %d.\n", num, getBoxIndex(s->size, i, j) + 1);
-                    return 0;
-                }
-                placeOrRemoveNumber(s, i, j, num, 1); 
+                placeOrRemoveNumber(s, i, j, num, 1);
             }
         }
     }
-    return 1; // All numbers are valid
+    return 1;
 }
 
 const char* classifyDifficulty(int clueCount, int backtrackingSteps) {
-    // Example classification logic
     if (clueCount > 40 && backtrackingSteps < 50) return "Easy";
     if (clueCount > 30 && backtrackingSteps < 100) return "Medium";
     return "Hard";
