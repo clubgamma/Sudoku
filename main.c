@@ -135,8 +135,13 @@ int countClues(Sudoku *s) {
 }
 
 int main(int argc, char *argv[]) {
+
+    int playing = 1;
+
+    while(playing) {
     Sudoku s;
     int steps = 0;
+    int choice;
 
     memset(rowMask, 0, sizeof(rowMask));
     memset(colMask, 0, sizeof(colMask));
@@ -160,6 +165,14 @@ int main(int argc, char *argv[]) {
     } else {
         printf("No solution exists.\n");
     }
-
+        printf("Do you want to restart the game or exit?\n");
+        printf("Press 1 to restart or 0 to exit: ");
+        scanf("%d", &choice);
+        
+        if (choice == 0) {
+            playing = 0; 
+        }   
+}
+    printf("Thanks for playing!\n");
     return 0;
 }
