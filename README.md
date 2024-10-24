@@ -83,12 +83,14 @@ Go to repository directory
 
 ### Command-Line Version
 - Compile the code using GCC:
-  
-To run the Sudoku solver:
+   ```bash
+   gcc main.c sudoku.c -o sudoku_solver
+   
+- To run the Sudoku solver:
    ```bash
    ./sudoku_solver
   ```
-To run the Sudoku solver Using txt file:
+- To run the Sudoku solver Using txt file:
    ```bash
    ./sudoku_solver ./EXAMPLE/puz.txt
   ```
