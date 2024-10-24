@@ -1,8 +1,6 @@
 #include "sudoku_gui.h"
 #include "sudoku.h"
 
-// Global masks from sudoku.h
-int rowMask[MAX_SIZE], colMask[MAX_SIZE], boxMask[MAX_SIZE];
 
 int main(int argc, char *argv[]) {
     // Initialize GTK
