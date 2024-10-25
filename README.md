@@ -84,7 +84,7 @@ Go to repository directory
 ### Command-Line Version
 - Compile the code using GCC:
    ```bash
-   gcc main.c sudoku.c -o sudoku_solver
+   gcc main.c ./src/core/sudoku.c -o sudoku_solver
    
 - To run the Sudoku solver:
    ```bash
