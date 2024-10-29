@@ -149,7 +149,13 @@ int validateInitialBoard(Sudoku *s) {
 }
 
 const char* classifyDifficulty(int clueCount, int backtrackingSteps) {
-    if (clueCount > 40 && backtrackingSteps < 50) return "Easy";
-    if (clueCount > 30 && backtrackingSteps < 100) return "Medium";
-    return "Hard";
+    // Categorize based on clues and backtracking steps in one pass
+    if (clueCount > 40) {
+        return (backtrackingSteps < 50) ? "Easy" : "Medium";
+    } else if (clueCount > 30) {
+        return (backtrackingSteps < 100) ? "Medium" : "Hard";
+    } else {
+        return "Hard";
+    }
 }
+
