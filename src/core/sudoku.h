@@ -10,7 +10,7 @@ typedef struct {
 
 // Core game logic functions
 int isValid(Sudoku *s, int row, int col, int num);
-int solveSudoku(Sudoku *s, int *steps);
+int optimizedSolveSudoku(Sudoku *s, int *steps);
 void printGrid(Sudoku *s);
 void placeOrRemoveNumber(Sudoku *s, int row, int col, int num, int place);
 int validateInitialBoard(Sudoku *s);

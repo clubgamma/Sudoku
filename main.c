@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
 
     int clueCount = countClues(&s);
 
-    if (solveSudoku(&s, &steps)) {
+    if (optimizedSolveSudoku(&s, &steps)) {
         printGrid(&s);
         printf("Sudoku solved in %d steps.\n", steps);
         const char *difficulty = classifyDifficulty(clueCount, steps);
