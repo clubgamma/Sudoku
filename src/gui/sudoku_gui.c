@@ -93,7 +93,7 @@ static void solve_clicked(GtkButton *button, gpointer data) {
     }
 
     int steps = 0;
-    if (solveSudoku(&gui.sudoku, &steps)) {
+    if (optimizedSolveSudoku(&gui.sudoku, &steps)) {
         // Update GUI with solution
         for (int i = 0; i < gui.sudoku.size; i++) {
             for (int j = 0; j < gui.sudoku.size; j++) {

@@ -1,3 +1,5 @@
 *.exe
 .vscode
 sudoku_solver
+*.o
+a
